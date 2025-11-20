@@ -2,8 +2,15 @@ name: TikTok Monitor
 
 on:
   schedule:
-    # Run every 5 minutes
-    - cron: '*/5 * * * *'
+    # Check every hour (much safer for TikTok)
+    - cron: '0 * * * *'
+    
+    # Alternative schedules (uncomment the one you want):
+    # Every 30 minutes: - cron: '*/30 * * * *'
+    # Every 2 hours: - cron: '0 */2 * * *'
+    # Every 6 hours: - cron: '0 */6 * * *'
+    # Twice a day (9am & 9pm UTC): - cron: '0 9,21 * * *'
+    
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
