@@ -46,14 +46,36 @@ def send_discord_notification(post_data):
     Send notification to Discord webhook
     """
     try:
+        # Get post details if available
+        post_url = post_data.get('url', f"https://www.tiktok.com/@{TIKTOK_USERNAME}")
+        post_description = post_data.get('description', 'No description available')
+        post_id = post_data.get('post_id', 'Unknown')
+        
         embed = {
-            "title": f"🎵 New TikTok from @{TIKTOK_USERNAME}!",
-            "description": f"[@{TIKTOK_USERNAME}](https://www.tiktok.com/@{TIKTOK_USERNAME}) just posted!",
-            "color": 0x00f2ea,  # TikTok's brand color
-            "url": f"https://www.tiktok.com/@{TIKTOK_USERNAME}",
+            "title": "🚨 New TikTok Post Alert!",
+            "description": f"**[@{TIKTOK_USERNAME}](https://www.tiktok.com/@{TIKTOK_USERNAME})** just posted new content!",
+            "color": 0x00f2ea,  # TikTok's cyan brand color
+            "fields": [
+                {
+                    "name": "📱 Account",
+                    "value": f"@{TIKTOK_USERNAME}",
+                    "inline": True
+                },
+                {
+                    "name": "🔗 Quick Link",
+                    "value": f"[View Post]({post_url})",
+                    "inline": True
+                },
+                {
+                    "name": "📝 Description",
+                    "value": post_description[:100] + "..." if len(post_description) > 100 else post_description,
+                    "inline": False
+                }
+            ],
+            "url": post_url,
             "timestamp": datetime.utcnow().isoformat(),
             "footer": {
-                "text": "TikTok Monitor"
+                "text": f"TikTok Monitor • Post ID: {post_id}"
             },
             "thumbnail": {
                 "url": "https://sf-tb-sg.ibytedtos.com/obj/eden-sg/uhtyvueh7nulogqoxo/tiktok-icon2.png"
@@ -61,8 +83,10 @@ def send_discord_notification(post_data):
         }
         
         payload = {
+            "content": f"**Jeremy posted a video, check it out!**\n{post_url}",  # Custom message with link
             "embeds": [embed],
-            "username": "TikTok Monitor",
+            "username": "TikTok Monitor Bot",
+            "avatar_url": "https://sf-tb-sg.ibytedtos.com/obj/eden-sg/uhtyvueh7nulogqoxo/tiktok-icon2.png"
         }
         
         response = requests.post(
