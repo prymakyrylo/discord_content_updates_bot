@@ -7,7 +7,7 @@ import os
 # Configuration
 TIKTOK_USERNAME = "investingwithjeremy"
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1440919493298618538/9nHrnR807FuiCdzbDkKbDz9qzZNRAW6wW78x9pE9FB71-5H9keHUJWdzNZWYYniUJI-k"
-CHECK_INTERVAL = 300  # Check every 5 minutes (in seconds)
+CHECK_INTERVAL = 3600  # Check every 5 minutes (in seconds)
 LAST_POST_FILE = "last_post_id.txt"
 
 def get_latest_tiktok_post(username):
